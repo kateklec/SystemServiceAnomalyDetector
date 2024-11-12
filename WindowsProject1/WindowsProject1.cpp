@@ -1,7 +1,4 @@
-﻿// WindowsProject1.cpp : Определяет точку входа для приложения.
-//
-
-#include "json.hpp"
+﻿#include "json.hpp"
 #include <fstream>
 
 #include "framework.h"
@@ -66,7 +63,7 @@ std::string wcharToString(const wchar_t* wstr) {
     int size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
     std::string strTo(size_needed, 0);
     WideCharToMultiByte(CP_UTF8, 0, wstr, -1, &strTo[0], size_needed, NULL, NULL);
-    strTo.pop_back();  // Remove the null terminator
+    strTo.pop_back();
     return strTo;
 }
 
@@ -528,8 +525,8 @@ std::wstring CheckServiceNotDisabled(const json& criticalServices) {
     std::wstring result;
     // Проверка критических служб из JSON
     for (const auto& el : criticalServices.items()) {
-        std::string serviceNameStr = el.key();  // Получаем имя службы как std::string
-        std::wstring serviceName = stringToWstring(serviceNameStr);  // Преобразуем std::string в std::wstring
+        std::string serviceNameStr = el.key();
+        std::wstring serviceName = stringToWstring(serviceNameStr);
 
         std::wstring description;
         // Проверяем, является ли значение строкой
@@ -627,7 +624,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDC_WINDOWSPROJECT1, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
-    // Выполнить инициализацию приложения:
+    // Выполнить инициализацию приложения
     if (!InitInstance (hInstance, nCmdShow))
     {
         return FALSE;
@@ -637,7 +634,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
-    // Цикл основного сообщения:
+    // Цикл основного сообщения
     while (GetMessage(&msg, nullptr, 0, 0))
     {
         if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
@@ -763,16 +760,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         // Создание кнопки "Открыть базу данных"
         CreateWindow(
             L"BUTTON",  
-            L"Состояния служб",      // Button text 
-            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
-            40,         // x position 
-            20,         // y position 
-            150,        // Button width
-            40,        // Button height
-            hWnd,      // Parent window
-            (HMENU)ID_BUTTON_OPENDB,  // No menu.
-            hInst,     // Используем hInst вместо hInstance
-            NULL);     // Pointer not needed.
+            L"Состояния служб",
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 
+            40, // x 
+            20, // y
+            150, // ширина
+            40, // высота
+            hWnd,
+            (HMENU)ID_BUTTON_OPENDB,
+            hInst,
+            NULL);
 
         // Создание кнопки "Проверить службы"
         CreateWindow(
@@ -832,7 +829,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
-            // Разобрать выбор в меню:
             switch (wmId)
             {
 
@@ -1063,17 +1059,17 @@ INT_PTR CALLBACK DatabaseDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPAR
 
             if (iSelectedItem != -1) {
                 // Обработка двойного клика по столбцу "DisplayName"
-                if (pnmItem->iSubItem == 1) { // Предполагаем, что DisplayName это 1-й столбец
+                if (pnmItem->iSubItem == 1) {
                     ListView_GetItemText(hListView, iSelectedItem, 1, szText, ARRAYSIZE(szText));
                     MessageBox(hDlg, szText, L"DisplayName", MB_OK);
                 }
                 // Обработка двойного клика по столбцу "BinaryPath"
-                else if (pnmItem->iSubItem == 5) { // Предполагаем, что BinaryPath это 5-й столбец
+                else if (pnmItem->iSubItem == 5) {
                     ListView_GetItemText(hListView, iSelectedItem, 5, szText, ARRAYSIZE(szText));
                     MessageBox(hDlg, szText, L"BinaryPath", MB_OK);
                 }
                 // Обработка двойного клика по столбцу "Description"
-                else if (pnmItem->iSubItem == 14) { // Предполагаем, что Description это 14-й столбец
+                else if (pnmItem->iSubItem == 14) {
                     ListView_GetItemText(hListView, iSelectedItem, 14, szText, ARRAYSIZE(szText));
                     MessageBox(hDlg, szText, L"Description", MB_OK);
                 }
@@ -1102,7 +1098,7 @@ INT_PTR CALLBACK DatabaseDialogProc(HWND hDlg, UINT message, WPARAM wParam, LPAR
         // Массив с ширинами колонок
         int columnWidths[] = {
             250, 150, 90, 90, 90, 150, 180, 80, 100,
-            150, 80, 60, 70, 80, 200 // Подберите ширину под ваш интерфейс
+            150, 80, 60, 70, 80, 200
         };
 
         LVCOLUMN lvColumn;
